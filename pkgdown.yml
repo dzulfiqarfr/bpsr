@@ -1,0 +1,10 @@
+pandoc: 2.19.2
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  bpsr: bpsr.html
+last_built: 2022-11-30T14:23Z
+urls:
+  reference: https://dzulfiqarfr.github.io/bpsr/reference
+  article: https://dzulfiqarfr.github.io/bpsr/articles
+
