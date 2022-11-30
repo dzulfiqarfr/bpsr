@@ -1,12 +1,40 @@
 Package: bpsr
-Title: What the Package Does (One Line, Title Case)
+Title: Get Resources from 'Statistics Indonesia (BPS)' API
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Dzulfiqar", "Fathur Rahman", email = "contact@dzulfiqarfr.com", role = c("aut", "cre"))
+Description: R client for Statistics Indonesia (BPS) application 
+    programming interface (API). 'bpsr' processes the response, uses tidy 
+    data when appropriate and provides features to request multiple resources
+    efficiently.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
+Imports: 
+    askpass,
+    cli,
+    dplyr,
+    glue,
+    httr2,
+    lubridate,
+    pillar,
+    purrr,
+    readr,
+    rlang,
+    rvest,
+    stringr,
+    tibble,
+    tidyr,
+    tidyselect,
+    usethis,
+    utils
+Depends: 
+    R (>= 2.10)
+VignetteBuilder: knitr

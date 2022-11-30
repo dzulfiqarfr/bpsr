@@ -1,0 +1,150 @@
+---
+title: "bpsr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{bpsr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = httr2::secret_has_key("BPSR_KEY")
+)
+```
+
+```{r setup, message = FALSE}
+library(bpsr)
+library(dplyr)
+```
+
+A common resource that people need from Statistics Indonesia (BPS) is a dataset. This vignette will show you how to get it using the agency's application programming interface (API) with the help of bpsr.
+
+If you're not familiar with an API and want to learn about it first, this [*Introduction to Web APIs* from the MDN Web Docs](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction) is a good place to start.
+
+You may also want to take a look at [BPS API's documentation](https://webapi.bps.go.id/documentation/).
+
+To be able to use it, you need to create an account on [BPS API's website](https://webapi.bps.go.id/developer/register)---if you haven't already. Having created an account, you need to create an application. To do this, go to your profile and navigate to the Application tab.
+
+
+## Set API key
+
+The API requires users to identify themselves using a key. To provide your key to bpsr, store it in an environment variable called `BPSR_KEY`. This package provides a helper function to set the key.
+
+```{r eval = FALSE}
+bps_set_key()
+```
+
+To keep you from repeating this step when working on other projects in the future, store the key in your `.Renviron`. You can easily do this with the help of `usethis::edit_r_environ()`.
+
+
+## Get dataset
+
+The API provides two types of datasets, which it calls the static table^[The static table is basically a dataset stored in a spreadsheet that comes in a Microsoft Excel file format with the ".xls" extension. It usually has multiple heavily-formatted tables on a single sheet.] and the dynamic table^[The dynamic table is a dataset stored in a [JSON](https://developer.mozilla.org/en-US/docs/Glossary/JSON).]. Most datasets are dynamic tables, so we'll focus on them here.
+
+Suppose that we're interested in datasets related to the Human Development Index (HDI), which measures both material and nonmaterial well-being.
+
+To request a dataset, we need to know its identifier (ID). The API provides the dataset table that contains each dataset's ID and title, among other things. We can use `bps_dataset()` to request this table.
+
+However, we may want to filter the dataset table by subject. Requesting the complete table can take a few seconds, while requesting the filtered table may take less than a second. As of November 2022, the dataset table has 1,411 records. These datasets are divided into 50 subjects.
+
+To narrow down the dataset table by subject, we'll need the ID of the HDI subject. So we'll start by requesting the subject table using `bps_subject()`.
+
+```{r, message = FALSE}
+# Set `page = Inf` to request the complete subject table
+table_subject <- bps_subject(page = Inf, lang = "eng")
+
+table_subject_hdi <- dplyr::filter(
+  table_subject, 
+  title == "Human Development Indices"
+)
+
+table_subject_hdi
+```
+
+Next, we'll request the table of datasets related to the HDI. We'll do this by supplying the HDI subject ID to `bps_dataset()`.
+
+```{r, message = FALSE}
+table_data_hdi <- bps_dataset(
+  subject_id = table_subject_hdi$subject_id, 
+  page = Inf,
+  lang = "eng"
+)
+
+table_data_hdi
+```
+
+Now, we can finally request the HDI datasets using `bps_get_dataset()`. Let's start with the headline index.
+
+```{r}
+table_data_hdi_hl <- dplyr::filter(
+  table_data_hdi, 
+  title == "[New Method] Human Development Index"
+)
+
+hdi_headline <- bps_get_dataset(table_data_hdi_hl$dataset_id, lang = "eng")
+hdi_headline
+```
+
+`bps_get_dataset()` returns a tibble with the `bpsr_tbl` subclass. It has a `metadata` attribute, which we can access using `bps_metadata()`.
+
+```{r}
+bps_metadata(hdi_headline)
+```
+
+The dataset has `vertical_var` and `derived_var` columns, which are categorical variables. These generic names follow the API's semantics. Here, `vertical_var` represents the region variable and `derived_var` represents no variables.
+
+The dataset also has a `var` column, which is a continuous variable. This name doesn't follow the API's semantics. 
+
+`var` is the measured variable. Here, it represents the HDI. As we can see above, BPS doesn't provide any metadata for this variable when the values are index points.
+
+By far, we have covered one of the most common tasks. The steps we took are very similar to the ones we take when we use the agency's website. We start by navigating to a particular subject tab, browse the list of datasets and finally download the dataset. 
+
+Unlike using the website, we didn't have to download multiple files to get the complete headline HDI dataset. The website splits the dataset into different files for every two year of observations.
+
+
+## Get multiple datasets
+
+bpsr also provides a function to request multiple datasets at once, namely `bps_get_datasets()`.
+
+We'll use the HDI datasets again to demonstrate the function. The HDI builds on three dimensions: health, knowledge and standard of living. We'll focus on the knowledge dimension, which is constructed using two indicators: expected years of schooling and mean years of schooling.
+
+Let's request the datasets of those two indicators by supplying a vector of their IDs to `bps_get_datasets()`.
+
+```{r}
+table_data_hdi_edu <- dplyr::filter(
+  table_data_hdi,
+  title %in% c(
+    "[New Method] Mean Years of Schooling",
+    "[New Method] Expected Years of Schooling"
+  )
+)
+
+# Set `keep` to "vertical_var_id" to keep the column containing province,
+# city and regency IDs, which are helpful to join datasets
+hdi_edu <- bps_get_datasets(
+  table_data_hdi_edu$dataset_id,
+  lang = "eng",
+  keep = "vertical_var_id"
+)
+
+hdi_edu
+```
+
+`bps_get_datasets()` returns a named list with the `bpsr_multiple_datasets` class, which contains `bpsr_tbl`s. The above call gave us a list of the expected years of schooling and mean years of schooling datasets^[You may notice that the expected years of schooling and mean years of schooling datasets have a different number of observations. This stems from the difference in the number of observations in 2010. The expected years of schooling dataset has observations for Pringsewu, Mesuji, West Tulang Bawang, South Tangerang City, Sabu Raijua, Morotai Islands, Tambrauw, Maybrat, Intan Jaya and Deiyai. Data for these regions in that year are missing in the mean years of schooling dataset.] and we can subset each of them by its ID.
+
+When working with multiple datasets, we usually want to join them. We can easily do this as we have told `bps_get_datasets()` to give us the `vertical_var_id` column, which is useful to join datasets that may have different styles or conventions for the shared variable.
+
+```{r}
+school_mean_year <- rename(hdi_edu$`415`, mean_years = var)
+school_expected_year <- rename(hdi_edu$`417`, expected_years = var)
+
+left_join(school_mean_year, school_expected_year)
+```
+
+
+## Request other resources
+
+The scope of bpsr extends beyond the common task of getting a dataset, but the package doesn't provide wrapper functions for all endpoints. For this reason, the package makes the core and low-level functions available to users. You can use these functions to request other resources, such as publications and infographics. See the Reference page on the website for more details.
