@@ -1,39 +1,33 @@
-url: ~
+url: https://dzulfiqarfr.github.io/bpsr/
 template:
   bootstrap: 5
-
 reference:
-- title: "Authentication"
-  contents:
-  - bps_set_key
-- title: "Dataset"
-  subtitle: "General"
+- title: Authentication
+  contents: bps_set_key
+- title: Dataset
+  subtitle: General
   contents:
   - bps_subject_category
   - bps_dataset
   - bps_vertical_var
-- subtitle: "Spreadsheet"
-  contents:
-  - bps_dataset_spreadsheet
-- subtitle: "Trade"
-  contents:
-  - bps_get_trade_hs_chapter
-- subtitle: "Sustainable Development Goals (SDG)"
-  contents:
-  - bps_sdg
-- title: "Search"
-  contents:
-  - bps_search
-- title: "Domain"
-  contents:
-  - bps_domain
-- title: "Core and low-level request functions"
+- subtitle: Spreadsheet
+  contents: bps_dataset_spreadsheet
+- subtitle: Trade
+  contents: bps_get_trade_hs_chapter
+- subtitle: Sustainable Development Goals (SDG)
+  contents: bps_sdg
+- title: Search
+  contents: bps_search
+- title: Domain
+  contents: bps_domain
+- title: Core and low-level request functions
   contents:
   - bps_request
   - bps_list
   - bps_view
-- title: "Helper"
+- title: Helper
   contents:
   - bps_download
   - bps_metadata
   - bps_add_date
+
