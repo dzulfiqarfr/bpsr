@@ -122,27 +122,11 @@ table_data_hdi_edu <- dplyr::filter(
   )
 )
 
-# Set `keep` to "vertical_var_id" to keep the column containing province,
-# city and regency IDs, which are helpful to join datasets
-hdi_edu <- bps_get_datasets(
-  table_data_hdi_edu$dataset_id,
-  lang = "eng",
-  keep = "vertical_var_id"
-)
-
+hdi_edu <- bps_get_datasets(table_data_hdi_edu$dataset_id, lang = "eng")
 hdi_edu
 ```
 
-`bps_get_datasets()` returns a named list with the `bpsr_multiple_datasets` class, which contains `bpsr_tbl`s. The above call gave us a list of the expected years of schooling and mean years of schooling datasets^[You may notice that the expected years of schooling and mean years of schooling datasets have a different number of observations. This stems from the difference in the number of observations in 2010. The expected years of schooling dataset has observations for Pringsewu, Mesuji, West Tulang Bawang, South Tangerang City, Sabu Raijua, Morotai Islands, Tambrauw, Maybrat, Intan Jaya and Deiyai. Data for these regions in that year are missing in the mean years of schooling dataset.] and we can subset each of them by its ID.
-
-When working with multiple datasets, we usually want to join them. We can easily do this as we have told `bps_get_datasets()` to give us the `vertical_var_id` column, which is useful to join datasets that may have different styles or conventions for the shared variable.
-
-```{r}
-school_mean_year <- rename(hdi_edu$`415`, mean_years = var)
-school_expected_year <- rename(hdi_edu$`417`, expected_years = var)
-
-left_join(school_mean_year, school_expected_year)
-```
+`bps_get_datasets()` returns a named list with the `bpsr_multiple_datasets` class, which contains `bpsr_tbl`s. The above call gave us a list that contains the expected years of schooling and mean years of schooling datasets^[You may notice that the expected years of schooling and mean years of schooling datasets have a different number of observations. This stems from the difference in the number of observations in 2010. The expected years of schooling dataset has observations for Pringsewu, Mesuji, West Tulang Bawang, South Tangerang City, Sabu Raijua, Morotai Islands, Tambrauw, Maybrat, Intan Jaya and Deiyai. Data for these regions in that year are missing in the mean years of schooling dataset.] and we can subset each of them by its ID.
 
 
 ## Request other resources
