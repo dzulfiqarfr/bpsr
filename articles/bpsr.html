@@ -46,7 +46,14 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/dzulfiqarfr/bpsr/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -61,7 +68,7 @@
       <img src="" class="logo" alt=""><h1>bpsr</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/dzulfiqarfr/bpsr/blob/HEAD/vignettes/bpsr.Rmd" class="external-link"><code>vignettes/bpsr.Rmd</code></a></small>
       <div class="d-none name"><code>bpsr.Rmd</code></div>
     </div>
 
@@ -246,69 +253,34 @@ vector of their IDs to <code><a href="../reference/bps_dataset.html">bps_get_dat
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Set `keep` to "vertical_var_id" to keep the column containing province,</span></span>
-<span><span class="co"># city and regency IDs, which are helpful to join datasets</span></span>
-<span><span class="va">hdi_edu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bps_dataset.html">bps_get_datasets</a></span><span class="op">(</span></span>
-<span>  <span class="va">table_data_hdi_edu</span><span class="op">$</span><span class="va">dataset_id</span>,</span>
-<span>  lang <span class="op">=</span> <span class="st">"eng"</span>,</span>
-<span>  keep <span class="op">=</span> <span class="st">"vertical_var_id"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
+<span><span class="va">hdi_edu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bps_dataset.html">bps_get_datasets</a></span><span class="op">(</span><span class="va">table_data_hdi_edu</span><span class="op">$</span><span class="va">dataset_id</span>, lang <span class="op">=</span> <span class="st">"eng"</span><span class="op">)</span></span>
 <span><span class="va">hdi_edu</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;bpsr_multiple_datasets&gt;</span></span></span>
 <span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ 415: bpsr_tbl [7,067 × 6] (S3: bpsr_tbl/tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   ..$ vertical_var_id: chr [1:7067] "1100" ...</span></span>
-<span><span class="co">#&gt;   ..$ vertical_var   : chr [1:7067] "ACEH" ...</span></span>
-<span><span class="co">#&gt;   ..$ derived_var    : chr [1:7067] NA ...</span></span>
-<span><span class="co">#&gt;   ..$ year           : int [1:7067] 2010 2011 ...</span></span>
-<span><span class="co">#&gt;   ..$ period         : chr [1:7067] "Annual" ...</span></span>
-<span><span class="co">#&gt;   ..$ var            : num [1:7067] 8.28 8.32 ...</span></span>
-<span><span class="co">#&gt;  $ 417: bpsr_tbl [7,077 × 6] (S3: bpsr_tbl/tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   ..$ vertical_var_id: chr [1:7077] "1100" ...</span></span>
-<span><span class="co">#&gt;   ..$ vertical_var   : chr [1:7077] "ACEH" ...</span></span>
-<span><span class="co">#&gt;   ..$ derived_var    : chr [1:7077] NA ...</span></span>
-<span><span class="co">#&gt;   ..$ year           : int [1:7077] 2010 2011 ...</span></span>
-<span><span class="co">#&gt;   ..$ period         : chr [1:7077] "Annual" ...</span></span>
-<span><span class="co">#&gt;   ..$ var            : num [1:7077] 12.9 ...</span></span></code></pre></div>
+<span><span class="co">#&gt;  $ 415: bpsr_tbl [7,067 × 5] (S3: bpsr_tbl/tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   ..$ vertical_var: chr [1:7067] "ACEH" ...</span></span>
+<span><span class="co">#&gt;   ..$ derived_var : chr [1:7067] NA ...</span></span>
+<span><span class="co">#&gt;   ..$ year        : int [1:7067] 2010 2011 ...</span></span>
+<span><span class="co">#&gt;   ..$ period      : chr [1:7067] "Annual" ...</span></span>
+<span><span class="co">#&gt;   ..$ var         : num [1:7067] 8.28 8.32 ...</span></span>
+<span><span class="co">#&gt;  $ 417: bpsr_tbl [7,077 × 5] (S3: bpsr_tbl/tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   ..$ vertical_var: chr [1:7077] "ACEH" ...</span></span>
+<span><span class="co">#&gt;   ..$ derived_var : chr [1:7077] NA ...</span></span>
+<span><span class="co">#&gt;   ..$ year        : int [1:7077] 2010 2011 ...</span></span>
+<span><span class="co">#&gt;   ..$ period      : chr [1:7077] "Annual" ...</span></span>
+<span><span class="co">#&gt;   ..$ var         : num [1:7077] 12.9 ...</span></span></code></pre></div>
 <p><code><a href="../reference/bps_dataset.html">bps_get_datasets()</a></code> returns a named list with the
 <code>bpsr_multiple_datasets</code> class, which contains
-<code>bpsr_tbl</code>s. The above call gave us a list of the expected
-years of schooling and mean years of schooling datasets<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;You may notice that the expected years of schooling and
+<code>bpsr_tbl</code>s. The above call gave us a list that contains the
+expected years of schooling and mean years of schooling datasets<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;You may notice that the expected years of schooling and
 mean years of schooling datasets have a different number of
 observations. This stems from the difference in the number of
 observations in 2010. The expected years of schooling dataset has
 observations for Pringsewu, Mesuji, West Tulang Bawang, South Tangerang
 City, Sabu Raijua, Morotai Islands, Tambrauw, Maybrat, Intan Jaya and
 Deiyai. Data for these regions in that year are missing in the mean
-years of schooling dataset.&lt;/p&gt;"><sup>3</sup></a> and we can subset each
-of them by its ID.</p>
-<p>When working with multiple datasets, we usually want to join them. We
-can easily do this as we have told <code><a href="../reference/bps_dataset.html">bps_get_datasets()</a></code> to
-give us the <code>vertical_var_id</code> column, which is useful to join
-datasets that may have different styles or conventions for the shared
-variable.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">school_mean_year</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="va">hdi_edu</span><span class="op">$</span><span class="va">`415`</span>, mean_years <span class="op">=</span> <span class="va">var</span><span class="op">)</span></span>
-<span><span class="va">school_expected_year</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="va">hdi_edu</span><span class="op">$</span><span class="va">`417`</span>, expected_years <span class="op">=</span> <span class="va">var</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">school_mean_year</span>, <span class="va">school_expected_year</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining, by = c("vertical_var_id", "vertical_var", "derived_var", "year",</span></span>
-<span><span class="co">#&gt; "period")</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,067 × 7</span></span></span>
-<span><span class="co">#&gt;    vertical_var_id vertical_var derived_var  year period mean_years expected_y…¹</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>010 Annual       8.28         12.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>011 Annual       8.32         13.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>012 Annual       8.36         13.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>013 Annual       8.44         13.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>014 Annual       8.71         13.5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>015 Annual       8.77         13.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>016 Annual       8.86         13.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>017 Annual       8.98         14.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>018 Annual       9.09         14.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 1100            ACEH         <span style="color: #BB0000;">NA</span>           <span style="text-decoration: underline;">2</span>019 Annual       9.18         14.3</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 7,057 more rows, and abbreviated variable name ¹​expected_years</span></span></span></code></pre></div>
+years of schooling dataset.&lt;/p&gt;"><sup>3</sup></a> and we can
+subset each of them by its ID.</p>
 </div>
 <div class="section level2">
 <h2 id="request-other-resources">Request other resources<a class="anchor" aria-label="anchor" href="#request-other-resources"></a>
