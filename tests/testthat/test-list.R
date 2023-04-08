@@ -10,8 +10,8 @@ test_that("`bps_list()` works", {
 
 test_that("`bps_list()` parses an empty response correctly", {
   resp <- bps_list("subject", page = c(1, 2, 6))
-  expect_equal(resp$table[[3]], NULL)
-  expect_equal(resp$result_info[[3]], NULL)
+  expect_equal(resp$table[[3]], data.frame())
+  expect_equal(resp$result_info[[3]], list())
 })
 
 
