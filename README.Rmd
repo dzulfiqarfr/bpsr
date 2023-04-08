@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/dzulfiqarfr/bpsr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dzulfiqarfr/bpsr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-bpsr allows users to get resources like datasets from Statistics Indonesia (BPS) from R by wrapping up its application programming interface (API).
+bpsr allows users to get Statistics Indonesia's (BPS) datasets and other resources from R by wrapping up its application programming interface (API).
 
 
 ## Installation
