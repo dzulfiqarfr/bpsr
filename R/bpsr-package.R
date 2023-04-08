@@ -78,5 +78,6 @@ utils::globalVariables(c(
   "net_weight",
   "value",
   "DESKRIPSI",
-  "description"
+  "description",
+  "name"
 ))
