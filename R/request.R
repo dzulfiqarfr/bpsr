@@ -121,21 +121,16 @@ bps_request_paginated <- function(url_path, ..., page = 1) {
     check_number(page)
   }
 
-  npage <- ""
-
-  cli_progress_step(
-    "Performing paginated request...",
-    msg_done = "Successfully requested {npage} page{?s}."
-  )
-
   if (page_is_inf) {
     first_page <- bps_request("list", page = 1, ...)
+
+    if (has_no_data(first_page)) {
+      return(first_page)
+    }
 
     total_page <- pluck(first_page, "data", 1, "pages")
 
     if (total_page == 1) {
-      npage <- 1
-      cli::cli_progress_update()
       return(first_page)
     }
 
@@ -161,10 +156,6 @@ bps_request_paginated <- function(url_path, ..., page = 1) {
   if (!page_is_inf) {
     check_status_error(body)
   }
-
-  npage <- length(query_param$page)
-  if (page_is_inf) npage <- npage + 1
-  cli::cli_progress_update()
 
   if (page_is_inf) body <- c(list(first_page), body)
 
@@ -263,16 +254,20 @@ is_parsing_error <- function(resp) {
 
 check_parsing_error <- function(resp, call = caller_env()) {
   if (length(resp) > 1) {
-    if (purrr::some(resp, is_parsing_error)) {
-      abort(
-        "Can't parse the body of some responses.",
-        parsing_error = map(resp, pluck, "error"),
-        call = call
-      )
+    if (purrr::none(resp, is_parsing_error)) {
+      return()
     }
-  }
 
-  if (is_parsing_error(resp)) {
+    abort(
+      "Can't parse the body of some responses.",
+      parsing_error = map(resp, pluck, "error"),
+      call = call
+    )
+  } else {
+    if (!is_parsing_error(resp)) {
+      return()
+    }
+
     abort(
       c(
         "Can't parse the response body.",
@@ -343,19 +338,21 @@ parse_error_message <- function(resp) {
 
 
 check_status_error <- function(resp, call = caller_env()) {
-  if (purrr::some(resp, is_status_error)) {
-    location <- which(purrr::map_lgl(resp, is_status_error))
-    error <- purrr::keep(resp, is_status_error)
-    message <- purrr::map_chr(error, parse_error_message)
-    message <- str_c("Request ", location, ": ", message) |>
-      rlang::set_names("x")
-
-    cli_abort(
-      c("Can't perform {length(location)} request{?s} successfully.", message),
-      resp = resp,
-      call = call
-    )
+  if (purrr::none(resp, is_status_error)) {
+    return()
   }
+
+  location <- which(purrr::map_lgl(resp, is_status_error))
+  error <- purrr::keep(resp, is_status_error)
+  message <- purrr::map_chr(error, parse_error_message)
+  message <- str_c("Request ", location, ": ", message) |>
+    rlang::set_names("x")
+
+  cli_abort(
+    c("Can't perform {length(location)} request{?s} successfully.", message),
+    resp = resp,
+    call = call
+  )
 }
 
 
@@ -365,23 +362,27 @@ has_no_data <- function(resp) {
 
 
 info_no_data <- function(resp) {
-  if (purrr::some(resp, has_no_data)) {
-    location <- which(purrr::map_lgl(resp, has_no_data))
-
-    cli_alert_info(str_c(
-      "{length(location)} request{?s} at {?this/these} location{?s} ",
-      "{?yields/yield} no data: {location}."
-    ))
+  if (purrr::none(resp, has_no_data)) {
+    return()
   }
+
+  location <- which(purrr::map_lgl(resp, has_no_data))
+
+  cli_alert_info(str_c(
+    "{length(location)} request{?s} at {?this/these} location{?s} ",
+    "{?yields/yield} no data: {location}."
+  ))
 }
 
 
 check_query_params <- function(x, arg = caller_arg(x), call = caller_env()) {
   check_list(x, arg = arg, call = call)
 
-  if (is_null(names(x))) {
-    cli_abort("{.arg {arg}} must be a named list.", call = call)
+  if (!is_null(names(x))) {
+    return()
   }
+
+  cli_abort("{.arg {arg}} must be a named list.", call = call)
 }
 
 
@@ -391,12 +392,14 @@ is_response <- function(x) {
 
 
 check_response <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is_response(x)) {
-    cli_abort(
-      "{.arg {arg}} must be a {.cls bpsr_response} object.",
-      call = call
-    )
+  if (is_response(x)) {
+    return()
   }
+
+  cli_abort(
+    "{.arg {arg}} must be a {.cls bpsr_response} object.",
+    call = call
+  )
 }
 
 
