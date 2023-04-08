@@ -1,19 +1,19 @@
 Package: bpsr
-Title: Get Resources from 'Statistics Indonesia (BPS)' API
+Title: Get Statistics Indonesia's Datasets and Other Resources Via Its API
 Version: 0.0.0.9000
 Authors@R: 
     person("Dzulfiqar", "Fathur Rahman", email = "contact@dzulfiqarfr.com", role = c("aut", "cre"))
-Description: R client for Statistics Indonesia (BPS) application 
-    programming interface (API). 'bpsr' processes the response, uses tidy 
-    data when appropriate and provides features to request multiple resources
-    efficiently.
+Description: R client for Statistics Indonesia's (BPS) application programming
+    interface (API). 'bpsr' processes the response, uses tidy data when
+    appropriate and provides features to request multiple resources efficiently.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,
+    rvest,
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
@@ -28,12 +28,10 @@ Imports:
     purrr,
     readr,
     rlang,
-    rvest,
     stringr,
     tibble,
     tidyr,
     tidyselect,
-    usethis,
     utils
 Depends: 
     R (>= 2.10)
