@@ -63,6 +63,6 @@ replace_whitespace <- function(x) {
 
 
 check_keyword <- function(x, arg = caller_arg(x), call = caller_env()) {
+  check_character(x, arg = arg, call = call)
   check_length_one(x, arg = arg, call = call)
-  check_string(x, arg = arg, call = call)
 }

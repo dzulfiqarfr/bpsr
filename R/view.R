@@ -40,8 +40,8 @@ bps_view <- function(model,
                      ...,
                      lang = c("ind", "eng")) {
   check_model(model, "view")
+  check_character(id)
   check_length_one(id)
-  check_string(id)
 
   lang <- arg_match(lang)
 
