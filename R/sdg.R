@@ -33,10 +33,12 @@ bps_sdg <- function(goal = NULL, page = NULL, lang = c("ind", "eng")) {
 # Helper ------------------------------------------------------------------
 
 check_goal <- function(x, arg = caller_arg(x), call = caller_env()) {
-  check_length_one(x, arg = arg, call = call)
   check_number(x, arg = arg, call = call)
+  check_length_one(x, arg = arg, call = call)
 
-  if (!any(x == seq(1, 17))) {
-    cli_abort("{.arg {arg}} must be between {.val {c(1, 17)}}.", call = call)
+  if (any(x == seq(1, 17))) {
+    return()
   }
+
+  cli_abort("{.arg {arg}} must be between {.val {c(1, 17)}}.", call = call)
 }

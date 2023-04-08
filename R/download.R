@@ -68,9 +68,11 @@ is_download_url <- function(x) {
 
 
 check_download_url <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (purrr::none(x, is_download_url)) {
-    cli_abort("{.arg {arg}} must be a BPS API download URL.", call = call)
+  if (purrr::every(x, is_download_url)) {
+    return()
   }
+
+  cli_abort("{.arg {arg}} must be a BPS API download URL.", call = call)
 }
 
 
@@ -82,13 +84,15 @@ is_file_extension_ok <- function(x) {
 check_file_extension <- function(x, arg = caller_arg(x), call = caller_env()) {
   check_character(x, arg = arg, call = call)
 
-  if (purrr::none(x, is_file_extension_ok)) {
-    cli_abort(
-      str_c(
-        '{.arg {arg}} must have either ',
-        '{.or {.val {c(".xls", ".pdf", ".png")}}} extension.'
-      ),
-      call = call
-    )
+  if (purrr::every(x, is_file_extension_ok)) {
+    return()
   }
+
+  cli_abort(
+    str_c(
+      '{.arg {arg}} must have either ',
+      '{.or {.val {c(".xls", ".pdf", ".png")}}} extension.'
+    ),
+    call = call
+  )
 }
