@@ -230,13 +230,13 @@ is_bpsr_tbl <- function(x) {
 
 
 check_bpsr_tbl <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is_bpsr_tbl(x)) {
-    cli_abort("{.arg {arg}} must be a {.cls bpsr_tbl} object.", call = call)
+  if (is_bpsr_tbl(x)) {
+    return()
   }
+
+  cli_abort("{.arg {arg}} must be a {.cls bpsr_tbl} object.", call = call)
 }
 
-
-## Dataset ----
 
 create_id_pattern <- function(x, anchor = "start") {
   x <- str_c(x, collapse = "|")
@@ -287,7 +287,6 @@ parse_year_n_period <- function(data, year, period, dataset_id) {
   stopifnot(all(c("vertical_var_id", "derived_var_id") %in% names(data)))
 
   pattern_year <- create_id_pattern(year$val)
-  pattern_period <- create_id_pattern(period$val, anchor = "end")
 
   names(year) <- c("year_id", "year")
   year$year_id <- as.character(year$year_id)
@@ -302,7 +301,7 @@ parse_year_n_period <- function(data, year, period, dataset_id) {
         str_c(vertical_var_id, dataset_id, derived_var_id)
       ),
       year_id = str_extract(date_id, pattern_year),
-      period_id = str_extract(composite_id, pattern_period)
+      period_id = str_remove(date_id, str_c("^", year_id))
     ) |>
     left_join(year, by = "year_id") |>
     left_join(period, by = "period_id") |>
