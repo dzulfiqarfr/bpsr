@@ -46,11 +46,11 @@ bps_dataset <- function(subject_id = NULL,
                         page = NULL,
                         lang = c("ind", "eng")) {
   if (!is_null(subject_id)) {
-    check_subject_id(subject_id)
+    check_id(subject_id)
   }
 
   if (!is_null(vertical_var_group_id)) {
-    check_vertical_var_group_id(vertical_var_group_id)
+    check_id(vertical_var_group_id)
   }
 
   table <- bps_list(
@@ -79,7 +79,7 @@ bps_dataset <- function(subject_id = NULL,
 #' @param period_id The period ID. Use [bps_period()] to see the list of
 #'   period IDs.
 #' @param keep ID columns to keep. Defaults to "none", which drops all of them.
-#'   Set to "all" keep all ID columns. Otherwise, must be "vertical_var_id",
+#'   Set to "all" to keep all ID columns. Otherwise, must be "vertical_var_id",
 #'   "derived_var_id", "year_id" or "period_id". To keep multiple ID columns,
 #'   supply a vector of them.
 #'
@@ -92,25 +92,25 @@ bps_get_dataset <- function(dataset_id,
                             domain_id = "0000",
                             lang = c("ind", "eng"),
                             keep = "none") {
-  check_dataset_id(dataset_id)
+  check_dataset_id(dataset_id, domain_id, length_one = FALSE)
 
   if (!is_null(vertical_var_id)) {
-    check_vertical_var_id(vertical_var_id, .dataset_id = dataset_id)
+    check_id(vertical_var_id, length_one = FALSE)
     vertical_var_id <- concat(vertical_var_id)
   }
 
   if (!is_null(derived_var_id)) {
-    check_derived_var_id(derived_var_id)
+    check_id(derived_var_id, length_one = FALSE)
     derived_var_id <- concat(derived_var_id)
   }
 
   if (!is_null(year_id)) {
-    check_year_id(year_id)
+    check_year_period_id(year_id)
     if (!is_range(year_id)) year_id <- concat(year_id)
   }
 
   if (!is_null(period_id)) {
-    check_period_id(period_id)
+    check_year_period_id(period_id)
     if (!is_range(period_id)) period_id <- concat(period_id)
   }
 
@@ -153,7 +153,7 @@ bps_get_datasets <- function(dataset_id,
     ))
   }
 
-  check_dataset_id(dataset_id, length_one = FALSE)
+  check_dataset_id(dataset_id, domain_id, length_one = FALSE)
   check_domain_id(domain_id)
 
   lang <- arg_match(lang)
@@ -222,142 +222,6 @@ as_dataset <- function(resp) {
 
 # Helper ------------------------------------------------------------------
 
-check_subject_id <- function(x, arg = caller_arg(x), call = caller_env()) {
-  database <- get_database("subject")
-
-  check_id(
-    x,
-    database$subject_id,
-    "subject",
-    length_one = TRUE,
-    arg = arg,
-    call = call
-  )
-}
-
-
-
-check_dataset_id <- function(x,
-                             length_one = TRUE,
-                             arg = caller_arg(x),
-                             call = caller_env()) {
-  database <- get_database("dataset")
-
-  check_id(
-    x,
-    database$dataset_id,
-    "dataset",
-    length_one = length_one,
-    arg = arg,
-    call = call
-  )
-}
-
-
-check_vertical_var_id <- function(x,
-                                  .dataset_id = NULL,
-                                  length_one = FALSE,
-                                  arg = caller_arg(x),
-                                  call = caller_env()) {
-  database <- get_database("vertical_var")
-
-  if (!is_null(.dataset_id)) {
-    dataset <- get_database("dataset")
-
-    id <- dataset |>
-      dplyr::filter(dataset_id == .dataset_id) |>
-      dplyr::pull(vertical_var_group_id)
-
-    database <- dplyr::filter(database, vertical_var_group_id == id)
-  }
-
-  check_id(
-    x,
-    database$vertical_var_id,
-    "vertical variable",
-    length_one = length_one,
-    arg = arg,
-    call = call
-  )
-}
-
-
-check_vertical_var_group_id <- function(x,
-                                        arg = caller_arg(x),
-                                        call = caller_env()) {
-  database <- get_database("vertical_var")
-
-  check_id(
-    x,
-    database$vertical_var_group_id,
-    "vertical variable group",
-    length_one = TRUE,
-    arg = arg,
-    call = call
-  )
-}
-
-
-check_derived_var_id <- function(x,
-                                 length_one = FALSE,
-                                 arg = caller_arg(x),
-                                 call = caller_env()) {
-  database <- get_database("derived_var")
-
-  check_id(
-    x,
-    database$derived_var_id,
-    "derived variable",
-    length_one = length_one,
-    arg = arg,
-    call = call
-  )
-}
-
-
-is_range <- function(x) {
-  length(x) == 1 && str_detect(x, ":")
-}
-
-
-check_year_id <- function(x,
-                          length_one = FALSE,
-                          arg = caller_arg(x),
-                          call = caller_env()) {
-  if (is_range(x)) x <- unlist(str_split(x, ":"))
-
-  database <- get_database("year")
-
-  check_id(
-    x,
-    database$year_id,
-    "year",
-    length_one = length_one,
-    arg = arg,
-    call = call
-  )
-}
-
-
-check_period_id <- function(x,
-                            length_one = FALSE,
-                            arg = caller_arg(x),
-                            call = caller_env()) {
-  if (is_range(x)) x <- unlist(str_split(x, ":"))
-
-  database <- get_database("period")
-
-  check_id(
-    x,
-    database$period_id,
-    "period",
-    length_one = length_one,
-    arg = arg,
-    call = call
-  )
-}
-
-
 extract_dataset_lookup_table <- function(resp) {
   list(
     vertical_var = resp$vervar,
@@ -393,7 +257,9 @@ is_dataset <- function(x) {
 
 
 check_dataset <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is_dataset(x)) {
-    cli_abort("{.arg {arg}} must be a {.cls bpsr_dataset} object.")
+  if (is_dataset(x)) {
+    return()
   }
+
+  cli_abort("{.arg {arg}} must be a {.cls bpsr_dataset} object.")
 }

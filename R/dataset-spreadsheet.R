@@ -46,7 +46,8 @@ bps_dataset_spreadsheet <- function(keyword = NULL,
   }
 
   if (!is_null(year)) {
-    check_year(year)
+    check_number(year)
+    check_length_one(year)
   }
 
   bps_search(
@@ -73,7 +74,7 @@ bps_download_spreadsheet <- function(dataset_id,
                                      file_path,
                                      domain_id = "0000",
                                      lang = c("ind", "eng")) {
-  check_spreadsheet_dataset_id(dataset_id)
+  check_spreadsheet_dataset_id(dataset_id, domain_id)
 
   if (!str_detect(file_path, "\\.xls$")) {
     cli_abort('{.arg file_path} must have a {.val ".xls" extension.')
@@ -95,30 +96,12 @@ bps_download_spreadsheet <- function(dataset_id,
 # Helper ------------------------------------------------------------------
 
 check_month <- function(x, arg = caller_arg(x), call = caller_env()) {
-  check_length_one(x, arg = arg, call = call)
   check_number(x, arg = arg, call = call)
+  check_length_one(x, arg = arg, call = call)
 
-  if (!any(x == seq(1, 12))) {
-    cli_abort("{.arg {arg}} must be between {.val {c(1, 12)}}.", call = call)
+  if (any(x == seq(1, 12))) {
+    return()
   }
-}
 
-
-check_year <- function(x, arg = caller_arg(x), call = caller_env()) {
-  check_length_one(x, arg = arg, call = call)
-  check_number(x, arg = arg, call = call)
-}
-
-
-check_spreadsheet_dataset_id <- function(x,
-                                         arg = caller_arg(x),
-                                         call = caller_env()) {
-  check_id(
-    x,
-    db_spreadsheet$dataset_id,
-    "spreadsheet dataset",
-    length_one = TRUE,
-    arg = arg,
-    call = call
-  )
+  cli_abort("{.arg {arg}} must be between {.val {c(1, 12)}}.", call = call)
 }

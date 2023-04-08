@@ -12,7 +12,6 @@ test_that("`bps_subject()` works", {
 
 
 test_that("`bps_subject()` fails due to invalid `subject_category_id`", {
-  expect_error(bps_subject(subject_category_id = c(2, 3)))
+  expect_error(bps_subject(subject_category_id = "abc"))
+  expect_error(bps_subject(subject_category_id = c("2", "3")))
 })
-
-

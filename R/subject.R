@@ -49,7 +49,7 @@ bps_subject <- function(subject_category_id = NULL,
                         page = NULL,
                         lang = c("ind", "eng")) {
   if (!is_null(subject_category_id)) {
-    check_subject_category_id(subject_category_id)
+    check_id(subject_category_id)
   }
 
   table <- bps_list(
@@ -61,22 +61,4 @@ bps_subject <- function(subject_category_id = NULL,
   )
 
   parse_table(table)
-}
-
-
-# Helper ------------------------------------------------------------------
-
-check_subject_category_id <- function(x,
-                                      arg = caller_arg(x),
-                                      call = caller_env()) {
-  database <- get_database("subject_category")
-
-  check_id(
-    x,
-    database$subject_category_id,
-    "subject category",
-    length_one = TRUE,
-    arg = arg,
-    call = call
-  )
 }

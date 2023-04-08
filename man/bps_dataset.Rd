@@ -65,7 +65,7 @@ see the list of derived variable IDs.}
 period IDs.}
 
 \item{keep}{ID columns to keep. Defaults to "none", which drops all of them.
-Set to "all" keep all ID columns. Otherwise, must be "vertical_var_id",
+Set to "all" to keep all ID columns. Otherwise, must be "vertical_var_id",
 "derived_var_id", "year_id" or "period_id". To keep multiple ID columns,
 supply a vector of them.}
 }

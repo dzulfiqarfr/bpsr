@@ -32,7 +32,7 @@ bps_vertical_var <- function(dataset_id = NULL,
                              page = NULL,
                              lang = c("ind", "eng")) {
   if (!is_null(dataset_id)) {
-    check_dataset_id(dataset_id)
+    check_dataset_id(dataset_id, domain_id)
   }
 
   table <- bps_list(
@@ -59,11 +59,11 @@ bps_derived_var <- function(dataset_id = NULL,
                             page = NULL,
                             lang = c("ind", "eng")) {
   if (!is_null(dataset_id)) {
-    check_dataset_id(dataset_id)
+    check_dataset_id(dataset_id, domain_id)
   }
 
   if (!is_null(derived_var_group_id)) {
-    check_derived_var_group_id(derived_var_group_id)
+    check_id(derived_var_group_id)
   }
 
   table <- bps_list(
@@ -86,7 +86,7 @@ bps_year <- function(dataset_id = NULL,
                      page = NULL,
                      lang = c("ind", "eng")) {
   if (!is_null(dataset_id)) {
-    check_dataset_id(dataset_id)
+    check_dataset_id(dataset_id, domain_id)
   }
 
   table <- bps_list(
@@ -108,7 +108,7 @@ bps_period <- function(dataset_id = NULL,
                        page = NULL,
                        lang = c("ind", "eng")) {
   if (!is_null(dataset_id)) {
-    check_dataset_id(dataset_id)
+    check_dataset_id(dataset_id, domain_id)
   }
 
   table <- bps_list(
@@ -120,20 +120,4 @@ bps_period <- function(dataset_id = NULL,
   )
 
   parse_table(table)
-}
-
-
-# Helper ------------------------------------------------------------------
-
-check_derived_var_group_id <- function(x,
-                                       arg = caller_arg(x),
-                                       call = caller_env()) {
-  check_id(
-    x,
-    db_derived_var$derived_var_group_id,
-    "derived variable group",
-    length_one = TRUE,
-    arg = arg,
-    call = call
-  )
 }

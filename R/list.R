@@ -142,7 +142,8 @@ table <- function(table = list(),
 # Helper ------------------------------------------------------------------
 
 check_model <- function(x, path, arg = caller_arg(x), call = caller_env()) {
-  check_string(x, arg = arg, call = call)
+  check_character(x, arg = arg, call = call)
+  check_length_one(x, arg = arg, call = call)
 
   path <- arg_match(path, c("list", "view"))
 
@@ -206,20 +207,6 @@ check_model <- function(x, path, arg = caller_arg(x), call = caller_env()) {
 }
 
 
-check_domain_id <- function(x, arg = caller_arg(x), call = caller_env()) {
-  database <- get_database("domain")
-
-  check_id(
-    x,
-    database$domain_id,
-    "domain",
-    length_one = TRUE,
-    arg = arg,
-    call = call
-  )
-}
-
-
 # Ensure that empty elements are translated to `NULL`s, instead of empty strings
 parse_empty_resp <- function(resp) {
   if (!has_no_data(resp)) {
@@ -267,7 +254,9 @@ is_table <- function(x) {
 
 
 check_table <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is_table(x)) {
-    cli_abort("{.arg {arg}} must be a {.cls bpsr_table} object.", call = call)
+  if (is_table(x)) {
+    return()
   }
+
+  cli_abort("{.arg {arg}} must be a {.cls bpsr_table} object.", call = call)
 }
