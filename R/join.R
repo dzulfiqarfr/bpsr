@@ -1,12 +1,12 @@
 #' @export
 inner_join.bpsr_tbl <- function(x,
-                                   y,
-                                   by = NULL,
-                                   copy = FALSE,
-                                   suffix = c(".x", ".y"),
-                                   ...,
-                                   keep = FALSE,
-                                   na_matches = c("na", "never")) {
+                                y,
+                                by = NULL,
+                                copy = FALSE,
+                                suffix = c(".x", ".y"),
+                                ...,
+                                keep = FALSE,
+                                na_matches = c("na", "never")) {
   x <- unclass_bpsr_tbl(x)
   y <- unclass_bpsr_tbl(y)
   NextMethod()
@@ -15,13 +15,13 @@ inner_join.bpsr_tbl <- function(x,
 
 #' @export
 left_join.bpsr_tbl <- function(x,
-                                  y,
-                                  by = NULL,
-                                  copy = FALSE,
-                                  suffix = c(".x", ".y"),
-                                  ...,
-                                  keep = FALSE,
-                                  na_matches = c("na", "never")) {
+                               y,
+                               by = NULL,
+                               copy = FALSE,
+                               suffix = c(".x", ".y"),
+                               ...,
+                               keep = FALSE,
+                               na_matches = c("na", "never")) {
   x <- unclass_bpsr_tbl(x)
   y <- unclass_bpsr_tbl(y)
   NextMethod()
@@ -30,13 +30,13 @@ left_join.bpsr_tbl <- function(x,
 
 #' @export
 right_join.bpsr_tbl <- function(x,
-                                   y,
-                                   by = NULL,
-                                   copy = FALSE,
-                                   suffix = c(".x", ".y"),
-                                   ...,
-                                   keep = FALSE,
-                                   na_matches = c("na", "never")) {
+                                y,
+                                by = NULL,
+                                copy = FALSE,
+                                suffix = c(".x", ".y"),
+                                ...,
+                                keep = FALSE,
+                                na_matches = c("na", "never")) {
   x <- unclass_bpsr_tbl(x)
   y <- unclass_bpsr_tbl(y)
   NextMethod()
@@ -45,13 +45,13 @@ right_join.bpsr_tbl <- function(x,
 
 #' @export
 full_join.bpsr_tbl <- function(x,
-                                  y,
-                                  by = NULL,
-                                  copy = FALSE,
-                                  suffix = c(".x", ".y"),
-                                  ...,
-                                  keep = FALSE,
-                                  na_matches = c("na", "never")) {
+                               y,
+                               by = NULL,
+                               copy = FALSE,
+                               suffix = c(".x", ".y"),
+                               ...,
+                               keep = FALSE,
+                               na_matches = c("na", "never")) {
   x <- unclass_bpsr_tbl(x)
   y <- unclass_bpsr_tbl(y)
   NextMethod()
