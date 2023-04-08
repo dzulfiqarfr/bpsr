@@ -76,7 +76,12 @@ bps_get_trade_hs_full <- function(hs_code,
 #' @rdname bps_get_trade_hs_chapter
 #' @export
 bps_hs_code <- function() {
-  get_database("hs")
+  if (!exists("hs_table")) {
+    cli_alert_info("Can't find any HS code database.")
+    return(invisible())
+  }
+
+  hs_table
 }
 
 
@@ -197,31 +202,31 @@ check_hs <- function(by,
 
   check_character(x, arg = arg, call = call)
 
-  database <- get_database("hs")
+  if (identical(by, "chapter")) {
+    hs_list <- hs_table$hs_chapter
+  } else {
+    hs_list <- hs_table$hs_code
+  }
+
+  if (is_valid(x, hs_list)) {
+    return()
+  }
+
+  if (length(x) > 1) x <- subset_invalid(x, hs_list)
 
   if (identical(by, "chapter")) {
-    database_sub <- database$hs_chapter
+    desc <- "a chapter or the first two digits of an HS code"
   } else {
-    database_sub <- database$hs_code
+    desc <- "an HS code"
   }
 
-  if (!is_valid(x, database_sub)) {
-    if (length(x) > 1) x <- subset_invalid(x, database_sub)
-
-    if (identical(by, "chapter")) {
-      desc <- "a chapter or the first two digits of an HS code"
-    } else {
-      desc <- "an HS code"
-    }
-
-    cli_abort(
-      c(
-        "{.arg {arg}} must be {desc}.",
-        "x" = "There {?is/are} no {.val {x}} in BPS's HS code database."
-      ),
-      call = call
-    )
-  }
+  cli_abort(
+    c(
+      "{.arg {arg}} must be {desc}.",
+      "x" = "There {?is/are} no {.val {x}} in BPS's HS code database."
+    ),
+    call = call
+  )
 }
 
 
@@ -233,13 +238,15 @@ check_trade_year <- function(x, arg = caller_arg(x), call = caller_env()) {
   check_number(x, arg = arg, call = call)
 
   latest <- bps_guess_latest_trade_year()
-  database <- seq(2014, latest)
+  year_list <- seq(2014, latest)
 
-  if (!is_valid(x, database)) {
-    if (length(x) != 1) x <- subset_invalid(x, database)
-
-    cli_abort("{.arg {arg}} must be between 2014 and {latest}.", call = call)
+  if (is_valid(x, year_list)) {
+    return()
   }
+
+  if (length(x) != 1) x <- subset_invalid(x, year_list)
+
+  cli_abort("{.arg {arg}} must be between 2014 and {latest}.", call = call)
 }
 
 
@@ -267,10 +274,12 @@ is_trade_dataset <- function(x) {
 
 
 check_trade_dataset <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is_trade_dataset(x)) {
-    cli_abort(
-      "{.arg {arg}} must be a {.cls bpsr_trade_dataset} object",
-      call = call
-    )
+  if (is_trade_dataset(x)) {
+    return()
   }
+
+  cli_abort(
+    "{.arg {arg}} must be a {.cls bpsr_trade_dataset} object",
+    call = call
+  )
 }
