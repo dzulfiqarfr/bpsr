@@ -52,7 +52,7 @@ However, we may want to filter the dataset table by subject. Requesting the comp
 
 To narrow down the dataset table by subject, we'll need the ID of the HDI subject. So we'll start by requesting the subject table using `bps_subject()`.
 
-```{r, message = FALSE}
+```{r}
 # Set `page = Inf` to request the complete subject table
 table_subject <- bps_subject(page = Inf, lang = "eng")
 
@@ -66,7 +66,7 @@ table_subject_hdi
 
 Next, we'll request the table of datasets related to the HDI. We'll do this by supplying the HDI subject ID to `bps_dataset()`.
 
-```{r, message = FALSE}
+```{r}
 table_data_hdi <- bps_dataset(
   subject_id = table_subject_hdi$subject_id, 
   page = Inf,
