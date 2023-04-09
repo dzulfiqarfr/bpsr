@@ -122,7 +122,7 @@ bps_request_paginated <- function(url_path, ..., page = 1) {
   }
 
   if (page_is_inf) {
-    first_page <- bps_request("list", page = 1, ...)
+    first_page <- bps_request("list", ..., page = 1)
 
     if (has_no_data(first_page)) {
       return(first_page)
