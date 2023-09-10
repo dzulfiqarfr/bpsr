@@ -5,20 +5,18 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="R client for Statistics Indonesia (BPS) application 
-    programming interface (API). bpsr processes the response, uses tidy 
-    data when appropriate and provides features to request multiple resources
-    efficiently.">
-<title>Get Resources from Statistics Indonesia (BPS) API • bpsr</title>
+<meta name="description" content="R client for Statistics Indonesias (BPS) application programming
+    interface (API). bpsr' processes the response, uses tidy data when
+    appropriate and provides features to request multiple resources efficiently.">
+<title>Get Statistics Indonesia's Datasets and Other Resources Via Its API • bpsr</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Get Resources from Statistics Indonesia (BPS) API">
-<meta property="og:description" content="R client for Statistics Indonesia (BPS) application 
-    programming interface (API). bpsr processes the response, uses tidy 
-    data when appropriate and provides features to request multiple resources
-    efficiently.">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Get Statistics Indonesia's Datasets and Other Resources Via Its API">
+<meta property="og:description" content="R client for Statistics Indonesias (BPS) application programming
+    interface (API). bpsr' processes the response, uses tidy data when
+    appropriate and provides features to request multiple resources efficiently.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -71,7 +69,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>bpsr allows users to get resources like datasets from Statistics Indonesia (BPS) from R by wrapping up its application programming interface (API).</p>
+<p>bpsr allows users to get Statistics Indonesia’s (BPS) datasets and other resources from R by wrapping up its application programming interface (API).</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -92,19 +90,19 @@
 <code class="sourceCode R"><span><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bps_dataset.html">bps_dataset</a></span><span class="op">(</span>lang <span class="op">=</span> <span class="st">"eng"</span><span class="op">)</span></span>
 <span><span class="va">table</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 9</span></span>
-<span><span class="co">#&gt;    dataset_id title              subje…¹ subject def   notes verti…² unit  graph</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;lgl&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 70         Population 5 Year… 2       Commun… &lt;NA&gt;  &amp;lt;… 1       NA        1</span></span>
-<span><span class="co">#&gt;  2 111        Percentage Househ… 2       Commun… &lt;NA&gt;  Sour… 1       NA        1</span></span>
-<span><span class="co">#&gt;  3 391        Percentage of Hou… 2       Commun… &lt;NA&gt;  Sour… 1       NA        1</span></span>
-<span><span class="co">#&gt;  4 392        Active Mobile Pho… 2       Commun… &lt;NA&gt;  Sour… 1       NA        1</span></span>
-<span><span class="co">#&gt;  5 393        Percentage of Hou… 2       Commun… &lt;NA&gt;  Sour… 1       NA        1</span></span>
-<span><span class="co">#&gt;  6 395        Percentage of Pop… 2       Commun… &lt;NA&gt;  Sumb… 1       NA        1</span></span>
-<span><span class="co">#&gt;  7 396        Percentage of Hou… 2       Commun… &lt;NA&gt;  &amp;lt;… 1       NA        1</span></span>
-<span><span class="co">#&gt;  8 398        Percentage of Hou… 2       Commun… &lt;NA&gt;  &amp;lt;… 1       NA        1</span></span>
-<span><span class="co">#&gt;  9 402        Percentage Househ… 2       Commun… &lt;NA&gt;  Sour… 152     NA        1</span></span>
-<span><span class="co">#&gt; 10 403        Household Members… 2       Commun… &lt;NA&gt;  Sour… 1       NA        1</span></span>
-<span><span class="co">#&gt; # … with abbreviated variable names ¹​subject_id, ²​vertical_var_group_id</span></span></code></pre></div>
+<span><span class="co">#&gt;    dataset_id title   subject_id subject def   notes vertical_var_group_id unit </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                 &lt;lgl&gt;</span></span>
+<span><span class="co">#&gt;  1 70         Popula… 2          Commun… &lt;NA&gt;  &amp;lt;… 1                     NA   </span></span>
+<span><span class="co">#&gt;  2 111        Percen… 2          Commun… &lt;NA&gt;  Sour… 1                     NA   </span></span>
+<span><span class="co">#&gt;  3 391        Percen… 2          Commun… &lt;NA&gt;  Sour… 1                     NA   </span></span>
+<span><span class="co">#&gt;  4 392        Active… 2          Commun… &lt;NA&gt;  Sour… 1                     NA   </span></span>
+<span><span class="co">#&gt;  5 393        Percen… 2          Commun… &lt;NA&gt;  Sour… 1                     NA   </span></span>
+<span><span class="co">#&gt;  6 395        Percen… 2          Commun… &lt;NA&gt;  Sumb… 1                     NA   </span></span>
+<span><span class="co">#&gt;  7 396        Percen… 2          Commun… &lt;NA&gt;  &amp;lt;… 1                     NA   </span></span>
+<span><span class="co">#&gt;  8 398        Percen… 2          Commun… &lt;NA&gt;  &amp;lt;… 1                     NA   </span></span>
+<span><span class="co">#&gt;  9 402        Percen… 2          Commun… &lt;NA&gt;  Sour… 152                   NA   </span></span>
+<span><span class="co">#&gt; 10 403        Househ… 2          Commun… &lt;NA&gt;  Sour… 1                     NA   </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: graph &lt;int&gt;</span></span></code></pre></div>
 <p>Functions to request datasets have <code>bps_get_</code> prefix. Use <code><a href="reference/bps_dataset.html">bps_get_dataset()</a></code> to request a dataset.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bps_dataset.html">bps_get_dataset</a></span><span class="op">(</span><span class="va">table</span><span class="op">$</span><span class="va">dataset_id</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, lang <span class="op">=</span> <span class="st">"eng"</span><span class="op">)</span></span>
@@ -122,7 +120,7 @@
 <span><span class="co">#&gt;  8 INDONESIA    Male         2021 Annual  65.0</span></span>
 <span><span class="co">#&gt;  9 INDONESIA    Female       2014 Annual  15.4</span></span>
 <span><span class="co">#&gt; 10 INDONESIA    Female       2015 Annual  20.2</span></span>
-<span><span class="co">#&gt; # … with 548 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 548 more rows</span></span>
 <span><span class="co">#&gt; # ℹ Read the metadata with `bps_metadata()`</span></span></code></pre></div>
 <p>Under the hood, bpsr parses the JSON returned by the API into a <a href="https://tibble.tidyverse.org/index.html" class="external-link">tibble</a>. More importantly, the package arranges the dataset in a <a href="https://tidyr.tidyverse.org/articles/tidy-data.html" class="external-link">tidy structure</a>, which is well suited for analysis.</p>
 <p>Use <code>bps_get_trade_hs_*()</code> to request trade datasets. These trade functions take the Harmonized System (HS) chapter or code as the first argument. To look up the HS chapter or code, use <code><a href="reference/bps_get_trade_hs_chapter.html">bps_hs_code()</a></code>.</p>
@@ -138,19 +136,19 @@
 <span></span>
 <span><span class="va">export</span></span>
 <span><span class="co">#&gt; # A tibble: 67 × 7</span></span>
-<span><span class="co">#&gt;    hs_chapter description    port                   partner  year net_w…¹ export</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;                  &lt;chr&gt;   &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 01         Binatang hidup ATAPUPU                EAST T…  2021  1.50e4 1.98e5</span></span>
-<span><span class="co">#&gt;  2 01         Binatang hidup KUALA NAMU INTERNATIO… JAPAN    2021  5   e0 1.03e2</span></span>
-<span><span class="co">#&gt;  3 01         Binatang hidup KUALA NAMU INTERNATIO… SINGAP…  2021  1.50e4 1.77e4</span></span>
-<span><span class="co">#&gt;  4 01         Binatang hidup KUALA TANJUNG          MALAYS…  2021  2.36e4 6.51e4</span></span>
-<span><span class="co">#&gt;  5 01         Binatang hidup NGURAH RAI (U)         EAST T…  2021  1.93e3 1.12e4</span></span>
-<span><span class="co">#&gt;  6 01         Binatang hidup NGURAH RAI (U)         HONG K…  2021  2.4 e2 2.05e4</span></span>
-<span><span class="co">#&gt;  7 01         Binatang hidup SEKUPANG               SINGAP…  2021  2.52e7 5.59e7</span></span>
-<span><span class="co">#&gt;  8 01         Binatang hidup SOEKARNO-HATTA (U)     AFGHAN…  2021  1.28e2 5.5 e4</span></span>
-<span><span class="co">#&gt;  9 01         Binatang hidup SOEKARNO-HATTA (U)     AUSTRIA  2021  6   e1 2.07e2</span></span>
-<span><span class="co">#&gt; 10 01         Binatang hidup SOEKARNO-HATTA (U)     BAHRAIN  2021  1.27e2 8.40e3</span></span>
-<span><span class="co">#&gt; # … with 57 more rows, and abbreviated variable name ¹​net_weight</span></span>
+<span><span class="co">#&gt;    hs_chapter description    port                partner  year net_weight export</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;               &lt;chr&gt;   &lt;int&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 01         Binatang hidup ATAPUPU             EAST T…  2021     15036. 1.98e5</span></span>
+<span><span class="co">#&gt;  2 01         Binatang hidup KUALA NAMU INTERNA… JAPAN    2021         5  1.03e2</span></span>
+<span><span class="co">#&gt;  3 01         Binatang hidup KUALA NAMU INTERNA… SINGAP…  2021     14950  1.77e4</span></span>
+<span><span class="co">#&gt;  4 01         Binatang hidup KUALA TANJUNG       MALAYS…  2021     23601  6.51e4</span></span>
+<span><span class="co">#&gt;  5 01         Binatang hidup NGURAH RAI (U)      EAST T…  2021      1932. 1.13e4</span></span>
+<span><span class="co">#&gt;  6 01         Binatang hidup NGURAH RAI (U)      HONG K…  2021       240  2.05e4</span></span>
+<span><span class="co">#&gt;  7 01         Binatang hidup SEKUPANG            SINGAP…  2021  25167463. 5.59e7</span></span>
+<span><span class="co">#&gt;  8 01         Binatang hidup SOEKARNO-HATTA (U)  AFGHAN…  2021       128  5.50e4</span></span>
+<span><span class="co">#&gt;  9 01         Binatang hidup SOEKARNO-HATTA (U)  AUSTRIA  2021        60  2.07e2</span></span>
+<span><span class="co">#&gt; 10 01         Binatang hidup SOEKARNO-HATTA (U)  BAHRAIN  2021       127  8.40e3</span></span>
+<span><span class="co">#&gt; # ℹ 57 more rows</span></span>
 <span><span class="co">#&gt; # ℹ Read the metadata with `bps_metadata()`</span></span></code></pre></div>
 <p>Some resources are available for download. We can use the download functions to get those resources. This is especially useful to get a dataset stored in a spreadsheet, which comes in a Microsoft Excel file format with the “.xls” extension.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -214,7 +212,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>
