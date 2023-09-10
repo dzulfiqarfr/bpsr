@@ -45,7 +45,7 @@ The low-level function to send a request to the view endpoint.
 \dontshow{if (httr2::secret_has_key("BPSR_KEY")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Get information and the download URL of a spreadsheet dataset on annual
 # inflation
-bps_view("statictable", "915", lang = "eng")
+bps_view("statictable", "915", domain = "0000", lang = "eng")
 \dontshow{\}) # examplesIf}
 }
 \seealso{

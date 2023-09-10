@@ -1,5 +1,5 @@
 test_that("`bps_view()` works", {
-  expect_s3_class(bps_view("statictable", "915"), "bpsr_file")
+  expect_s3_class(bps_view("statictable", "915", domain = "0000"), "bpsr_file")
 })
 
 

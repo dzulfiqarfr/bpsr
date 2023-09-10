@@ -52,17 +52,23 @@ test_that("core request functions work but return no data", {
 
   expect_true(has_no_data(resp))
 
-  resp2 <-  bps_request_multiple(
+  resp2 <- bps_request_multiple(
     "list",
     list(
       model = "subject",
+      domain = "0000",
       page = c(100, 500)
     )
   )
 
   expect_true(purrr::every(resp2, has_no_data))
 
-  resp3 <-  bps_request_paginated("list", model = "subject", page = seq(6, 10))
+  resp3 <- bps_request_paginated(
+    "list",
+    model = "subject",
+    domain = "0000",
+    page = seq(6, 10)
+  )
 
   expect_true(purrr::every(resp3, has_no_data))
 })

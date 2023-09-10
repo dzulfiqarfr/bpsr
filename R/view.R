@@ -32,7 +32,7 @@
 #' @examplesIf httr2::secret_has_key("BPSR_KEY")
 #' # Get information and the download URL of a spreadsheet dataset on annual
 #' # inflation
-#' bps_view("statictable", "915", lang = "eng")
+#' bps_view("statictable", "915", domain = "0000", lang = "eng")
 #'
 #' @export
 bps_view <- function(model,
